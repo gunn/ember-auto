@@ -1,0 +1,16 @@
+{
+  "name": "ember-auto",
+  "version": "0.0.1",
+  "main": "ember-auto.js",
+  "dependencies": {
+    "ember": "~1.0.0-rc.5"
+  },
+  "devDependencies": {
+    "qunit": "~1.11"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ]
+}
