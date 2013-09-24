@@ -1,5 +1,5 @@
-Ember.AutoProperty = function(func) {
-  var cp = new Ember.ComputedProperty();
+Ember.AutoProperty = function() {
+  var cp = Ember.computed.apply(Ember, arguments);
   cp._isAutoProperty = true;
 
   return cp;
