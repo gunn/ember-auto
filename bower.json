@@ -1,6 +1,6 @@
 {
   "name": "ember-auto",
-  "version": "0.0.1",
+  "version": "0.0.1a",
   "main": "ember-auto.js",
   "dependencies": {
     "ember": "~1.0.0-rc.5"
