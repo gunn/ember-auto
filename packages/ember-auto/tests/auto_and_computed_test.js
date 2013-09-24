@@ -1,4 +1,4 @@
-module("Ember.auto");
+module("Ember.auto and Ember.computed");
 
 test("Regular computed properties are not auto", function() {
   expect(2);
