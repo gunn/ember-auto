@@ -19,9 +19,8 @@ var argumentNamesFor = function(func) {
   return argNames;
 };
 
-Ember.AutoProperty = function() {
-  var cp = Ember.computed.apply(Ember, arguments);
-  cp._isAutoProperty = true;
+Ember.AutoProperty = function(func, opts) {
+  var cp = new Ember.ComputedProperty(func, opts);
 
   if (!cp._dependentKeys) {
     var keys = argumentNamesFor(cp.func);
@@ -31,5 +30,6 @@ Ember.AutoProperty = function() {
     }
   }
 
+  cp._isAutoProperty = true;
   return cp;
 };
