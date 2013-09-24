@@ -1,7 +1,7 @@
 require("ember-auto/auto_computed_property");
 
 Ember.auto = function (func) {
-  return autoComputed(func);
+  return Ember.AutoProperty(func);
 };
 
 require("ember-auto/version");

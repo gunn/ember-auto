@@ -1,5 +1,3 @@
-var attr = Ember.attr;
-
 module("Ember.auto.VERSION");
 
 test("the version number is set", function() {
