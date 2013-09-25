@@ -14,10 +14,7 @@ Ember.auto = function (func) {
   }
 
   var cp = new Ember.AutoProperty(func);
-
-  if (args) {
-    cp.property.apply(cp, args);
-  }
+  if (args) cp.property.apply(cp, args);
 
   return cp;
 };
