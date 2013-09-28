@@ -50,5 +50,23 @@ test("argument orders can be rearranged, skipped", function () {
       return [].slice.call(arguments);
     })
   });
-  deepEqual(get(Numbers.create(), "list"), [1, 2]);
+  deepEqual(get(Numbers.create(), "list"), [1, 2], "works with fewer arguments");
+
+  Numbers = Ember.Object.extend({
+    a: 1, b: 2, c: 3, d: 4,
+
+    list: Ember.auto(function (c, d, b) {
+      return [].slice.call(arguments);
+    })
+  });
+  deepEqual(get(Numbers.create(), "list"), [3, 4, 2], "works with any order of arguments");
+
+  Numbers = Ember.Object.extend({
+    a: 1, b: 2, c: 3, d: 4,
+
+    list: Ember.auto(function () {
+      return [].slice.call(arguments);
+    })
+  });
+  deepEqual(get(Numbers.create(), "list"), [], "works with no arguments");
 });
