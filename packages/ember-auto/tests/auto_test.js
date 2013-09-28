@@ -32,41 +32,37 @@ test("the dependent key properties are passed into the function", function() {
 });
 
 test("argument orders can be rearranged, skipped", function () {
-  var Numbers;
+  var Numbers, nums;
 
   Numbers = Ember.Object.extend({
-    a: 1, b: 2, c: 3, d: 4,
+    a: 1, b: 2, c: 3, d: 4
+  });
 
+  nums = Numbers.extend({
     list: Ember.auto(function (a, b, c, d) {
       return [].slice.call(arguments);
     })
-  });
-  deepEqual(get(Numbers.create(), "list"), [1, 2, 3, 4]);
+  }).create();
+  deepEqual(get(nums, "list"), [1, 2, 3, 4]);
 
-  Numbers = Ember.Object.extend({
-    a: 1, b: 2, c: 3, d: 4,
-
+  nums = Numbers.extend({
     list: Ember.auto(function (a, b) {
       return [].slice.call(arguments);
     })
-  });
-  deepEqual(get(Numbers.create(), "list"), [1, 2], "works with fewer arguments");
+  }).create();
+  deepEqual(get(nums, "list"), [1, 2], "works with fewer arguments");
 
-  Numbers = Ember.Object.extend({
-    a: 1, b: 2, c: 3, d: 4,
-
+  nums = Numbers.extend({
     list: Ember.auto(function (c, d, b) {
       return [].slice.call(arguments);
     })
-  });
-  deepEqual(get(Numbers.create(), "list"), [3, 4, 2], "works with any order of arguments");
+  }).create();
+  deepEqual(get(nums, "list"), [3, 4, 2], "works with any order of arguments");
 
-  Numbers = Ember.Object.extend({
-    a: 1, b: 2, c: 3, d: 4,
-
+  nums = Numbers.extend({
     list: Ember.auto(function () {
       return [].slice.call(arguments);
     })
-  });
-  deepEqual(get(Numbers.create(), "list"), [], "works with no arguments");
+  }).create();
+  deepEqual(get(nums, "list"), [], "works with no arguments");
 });
