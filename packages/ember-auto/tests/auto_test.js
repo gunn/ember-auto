@@ -32,15 +32,23 @@ test("the dependent key properties are passed into the function", function() {
 });
 
 test("argument orders can be rearranged, skipped", function () {
-  var Numbers = Ember.Object.extend({
-    a: 1, b: 2, c: 3, d: 4, e: 5, f: 6,
+  var Numbers;
 
-    list: Ember.auto(function (a, b, c, d, e, f) {
-      return [a, b, c, d, e, f];
+  Numbers = Ember.Object.extend({
+    a: 1, b: 2, c: 3, d: 4,
+
+    list: Ember.auto(function (a, b, c, d) {
+      return [].slice.call(arguments);
     })
   });
+  deepEqual(get(Numbers.create(), "list"), [1, 2, 3, 4]);
 
-  var num = Numbers.create();
+  Numbers = Ember.Object.extend({
+    a: 1, b: 2, c: 3, d: 4,
 
-  deepEqual(get(num, "list"), [1, 2, 3, 4, 5, 6]);
+    list: Ember.auto(function (a, b) {
+      return [].slice.call(arguments);
+    })
+  });
+  deepEqual(get(Numbers.create(), "list"), [1, 2]);
 });
