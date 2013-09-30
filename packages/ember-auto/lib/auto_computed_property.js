@@ -140,10 +140,6 @@ var argumentsFor = function (obj, keyName, property) {
   for (var i = 0; i < names.length; i++) {
     if (keys.indexOf(names[i]) !== -1) {
       args.push(get(obj, names[i]));
-    } else if (i===0) {
-      args.push(keyName);
-    } else {
-      args.push(Ember.noArg);
     }
   }
 
