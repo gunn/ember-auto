@@ -22,9 +22,10 @@ Ember.ComputedProperty.prototype.get = function(obj, keyName) {
     if (keyName in cache) { return cache[keyName]; }
   }
 
-  args = [keyName];
-  if (this._isAutoProperty && this._dependentKeys) {
+  if (this._isAutoProperty) {
     args = argumentsFor(obj, keyName, this);
+  } else {
+    args = [keyName];
   }
 
   if (this._cacheable) {
