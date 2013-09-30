@@ -1,7 +1,7 @@
 Ember.AutoProperty = function(func, opts) {
   var cp = new Ember.ComputedProperty(func, opts);
 
-  if (!cp._dependentKeys) {
+  if (!cp._dependentKeys || cp._dependentKeys.length<1) {
     var keys = argumentNamesFor(cp.func);
 
     if (keys.length) {
