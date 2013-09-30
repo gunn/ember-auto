@@ -33,6 +33,7 @@ test("the dependent key properties are passed into the function", function() {
 
 test("argument orders can be rearranged, skipped", function () {
   var Numbers, nums;
+  expect(4);
 
   Numbers = Ember.Object.extend({
     a: 1, b: 2, c: 3, d: 4,
@@ -60,6 +61,7 @@ test("argument orders can be rearranged, skipped", function () {
 
 test("if dependent keys are specified, other properties will not be passed", function () {
   var Numbers, nums;
+  expect(3);
 
   Numbers = Ember.Object.extend({
     a: 1, b: 2, c: 3, d: 4,
