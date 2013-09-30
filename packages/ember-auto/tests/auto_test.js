@@ -35,34 +35,25 @@ test("argument orders can be rearranged, skipped", function () {
   var Numbers, nums;
 
   Numbers = Ember.Object.extend({
-    a: 1, b: 2, c: 3, d: 4
+    a: 1, b: 2, c: 3, d: 4,
+
+    list1: Ember.auto(function (a, b, c, d) {
+      return [].slice.call(arguments);
+    }),
+    list2: Ember.auto(function (a, b) {
+      return [].slice.call(arguments);
+    }),
+    list3: Ember.auto(function (c, d, b) {
+      return [].slice.call(arguments);
+    }),
+    list4: Ember.auto(function () {
+      return [].slice.call(arguments);
+    })
   });
+  nums = Numbers.create();
 
-  nums = Numbers.extend({
-    list: Ember.auto(function (a, b, c, d) {
-      return [].slice.call(arguments);
-    })
-  }).create();
-  deepEqual(get(nums, "list"), [1, 2, 3, 4]);
-
-  nums = Numbers.extend({
-    list: Ember.auto(function (a, b) {
-      return [].slice.call(arguments);
-    })
-  }).create();
-  deepEqual(get(nums, "list"), [1, 2], "works with fewer arguments");
-
-  nums = Numbers.extend({
-    list: Ember.auto(function (c, d, b) {
-      return [].slice.call(arguments);
-    })
-  }).create();
-  deepEqual(get(nums, "list"), [3, 4, 2], "works with any order of arguments");
-
-  nums = Numbers.extend({
-    list: Ember.auto(function () {
-      return [].slice.call(arguments);
-    })
-  }).create();
-  deepEqual(get(nums, "list"), [], "works with no arguments");
+  deepEqual(get(nums, "list1"), [1, 2, 3, 4]);
+  deepEqual(get(nums, "list2"), [1, 2], "works with fewer arguments");
+  deepEqual(get(nums, "list3"), [3, 4, 2], "works with any order of arguments");
+  deepEqual(get(nums, "list4"), [], "works with no arguments");
 });
