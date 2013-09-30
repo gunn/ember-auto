@@ -141,6 +141,8 @@ var argumentsFor = function (obj, keyName, property) {
   for (var i = 0; i < names.length; i++) {
     if (keys.indexOf(names[i]) !== -1) {
       args.push(get(obj, names[i]));
+    } else {
+      args.push(undefined);
     }
   }
 
