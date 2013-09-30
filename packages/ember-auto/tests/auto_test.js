@@ -57,3 +57,26 @@ test("argument orders can be rearranged, skipped", function () {
   deepEqual(get(nums, "list3"), [3, 4, 2], "works with any order of arguments");
   deepEqual(get(nums, "list4"), [], "works with no arguments");
 });
+
+test("if dependent keys are specified, other properties will not be passed", function () {
+  var Numbers, nums;
+
+  Numbers = Ember.Object.extend({
+    a: 1, b: 2, c: 3, d: 4,
+
+    list1: Ember.auto("a", "b", "c", "d", function (a, b, c, d) {
+      return [].slice.call(arguments);
+    }),
+    list2: Ember.auto("a", "b", function (a, b, c, d) {
+      return [].slice.call(arguments);
+    }),
+    list3: Ember.auto("c", "d", "b", function (a, b, c, d) {
+      return [].slice.call(arguments);
+    })
+  });
+  nums = Numbers.create();
+
+  deepEqual(get(nums, "list1"), [1, 2, 3, 4]);
+  deepEqual(get(nums, "list2"), [1, 2, undefined, undefined], "arguments that don't map to dependent keys are passed as undefined");
+  deepEqual(get(nums, "list3"), [undefined, 2, 3, 4], "works with any order of arguments");
+});
