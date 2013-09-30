@@ -1,4 +1,4 @@
-module("function extensions");
+module("Ember.computed and Function extensions");
 
 var get = Ember.get;
 
