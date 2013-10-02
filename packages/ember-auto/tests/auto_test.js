@@ -60,21 +60,19 @@ test("arguments can be rearranged, skipped", function () {
 });
 
 test("if dependent keys are specified, only their properties will be injected", function () {
-  var Numbers, nums;
+  var Numbers, nums, list;
   expect(3);
+
+  list = function (a, b, c, d) {
+    return [].slice.call(arguments);
+  };
 
   Numbers = Ember.Object.extend({
     a: 1, b: 2, c: 3, d: 4,
 
-    list1: Ember.auto("a", "b", "c", "d", function (a, b, c, d) {
-      return [].slice.call(arguments);
-    }),
-    list2: Ember.auto("a", "b", function (a, b, c, d) {
-      return [].slice.call(arguments);
-    }),
-    list3: Ember.auto("c", "d", "b", function (a, b, c, d) {
-      return [].slice.call(arguments);
-    })
+    list1: Ember.auto("a", "b", "c", "d", list),
+    list2: Ember.auto("a", "b", list),
+    list3: Ember.auto("c", "d", "b", list)
   });
   nums = Numbers.create();
 

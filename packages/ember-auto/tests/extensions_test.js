@@ -32,21 +32,19 @@ test("calling auto on a computed property creates an auto property", function() 
 });
 
 test("dependent keys can be specified", function () {
-  var Numbers, nums;
+  var Numbers, nums, list;
   expect(3);
+
+  list = function (a, b, c, d) {
+    return [].slice.call(arguments);
+  };
 
   Numbers = Ember.Object.extend({
     a: 1, b: 2, c: 3, d: 4,
 
-    list1: function (a, b, c, d) {
-      return [].slice.call(arguments);
-    }.auto("a", "b", "c", "d"),
-    list2: function (a, b, c, d) {
-      return [].slice.call(arguments);
-    }.auto("a", "b"),
-    list3: function (a, b, c, d) {
-      return [].slice.call(arguments);
-    }.auto("d", "b", "c")
+    list1: list.auto("a", "b", "c", "d"),
+    list2: list.auto("a", "b"),
+    list3: list.auto("d", "b", "c")
   });
   nums = Numbers.create();
 
