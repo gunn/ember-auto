@@ -15,7 +15,7 @@ test("get dependent keys from the function unless provided explicitly", function
   deepEqual(p3._dependentKeys, ["X", "Y"]);
 });
 
-test("the dependent key properties are passed into the function", function() {
+test("the dependent key properties are injected into the function", function() {
   expect(2);
 
   var Person = Ember.Object.extend({
@@ -25,13 +25,13 @@ test("the dependent key properties are passed into the function", function() {
   });
 
   var obj = Person.create({first: "Arthur", last: "Gunn"});
-  equal(get(obj, "full"), "Arthur Gunn", "properties are passed as arguments");
+  equal(get(obj, "full"), "Arthur Gunn", "properties are injected as arguments");
 
   obj.set("first", "Attila the");
-  equal(get(obj, "full"), "Attila the Gunn", "changed properties are passed as arguments");
+  equal(get(obj, "full"), "Attila the Gunn", "changed properties are injected as arguments");
 });
 
-test("argument orders can be rearranged, skipped", function () {
+test("arguments can be rearranged, skipped", function () {
   var Numbers, nums;
   expect(4);
 
@@ -59,7 +59,7 @@ test("argument orders can be rearranged, skipped", function () {
   deepEqual(get(nums, "list4"), [], "works with no arguments");
 });
 
-test("if dependent keys are specified, other properties will not be passed", function () {
+test("if dependent keys are specified, only their properties will be injected", function () {
   var Numbers, nums;
   expect(3);
 
@@ -79,6 +79,6 @@ test("if dependent keys are specified, other properties will not be passed", fun
   nums = Numbers.create();
 
   deepEqual(get(nums, "list1"), [1, 2, 3, 4]);
-  deepEqual(get(nums, "list2"), [1, 2, undefined, undefined], "arguments that don't map to dependent keys are passed as undefined");
-  deepEqual(get(nums, "list3"), [undefined, 2, 3, 4], "works with any order of arguments");
+  deepEqual(get(nums, "list2"), [1, 2, undefined, undefined], "arguments that don't map to dependent keys are injected as undefined");
+  deepEqual(get(nums, "list3"), [undefined, 2, 3, 4], "works with any order of dependent keys");
 });

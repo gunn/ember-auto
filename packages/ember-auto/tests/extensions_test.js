@@ -11,7 +11,7 @@ test("calling auto on a function creates an auto property", function() {
   });
 
   var obj = Person.create({first: "Arthur", last: "Gunn"});
-  equal(get(obj, "full"), "Arthur Gunn", "properties are passed as arguments");
+  equal(get(obj, "full"), "Arthur Gunn", "properties are injected as arguments");
 });
 
 test("calling auto on a computed property creates an auto property", function() {
@@ -27,6 +27,6 @@ test("calling auto on a computed property creates an auto property", function() 
   });
 
   var obj = Person.create({first: "Arthur", last: "Gunn"});
-  equal(get(obj, "full1"), "Arthur Gunn", "properties are passed as arguments");
-  equal(get(obj, "full2"), "Arthur Gunn", "properties are passed as arguments");
+  equal(get(obj, "full1"), "Arthur Gunn", "properties are injected as arguments");
+  equal(get(obj, "full2"), "Arthur Gunn", "properties are injected as arguments");
 });
