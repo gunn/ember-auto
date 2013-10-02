@@ -103,3 +103,34 @@ test("dependent keys can point to other properties", function () {
   deepEqual(get(nums, "list1"), [1, 2, 3, 4], "computed and auto properties");
   deepEqual(get(nums, "list2"), [1, 2, 3, 4], "computed and regular properties");
 });
+
+test("dependent keys can point to property paths with multiple steps", function () {
+  expect(3);
+
+  window.App = Ember.Object.extend({
+    currentElement: "Li"
+  });
+
+  var obj = Ember.Object.extend({
+    elements: {
+      "H":  { name: "Hydrogen", number: 1},
+      "He": { name: "Helium",   number: 2},
+      "Li": { name: "Lithium",  number: 3}
+    },
+
+    currentElement: Ember.auto("App.currentElement", function(currentElement) {
+      return currentElement;
+    }),
+    lithium: Ember.auto("elements.Li.name", "elements.Li.number", function(name, number) {
+      return name + ": "+ number;
+    }),
+    currentName: Ember.auto("elements", "App.currentElement", function(elements, currentElement) {
+      return elements[currentElement].name;
+    })
+
+  }).create();
+
+  deepEqual(get(obj, "currentElement"), "Li", "absolute paths");
+  deepEqual(get(obj, "lithium"), "Lithium: 3", "long paths");
+  deepEqual(get(obj, "currentName"), "Lithium", "mixed");
+});
