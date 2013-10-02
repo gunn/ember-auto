@@ -78,3 +78,28 @@ test("if dependent keys are specified, only their properties will be injected", 
   deepEqual(get(nums, "list2"), [1, 2, undefined, undefined], "arguments that don't map to dependent keys are injected as undefined");
   deepEqual(get(nums, "list3"), [undefined, 2, 3, 4], "works with any order of dependent keys");
 });
+
+test("dependent keys can point to other properties", function () {
+  expect(2);
+
+  var nums = Ember.Object.extend({
+    a: 1, b: 2, c: 3, d: 4,
+
+    ab: Ember.computed("a", "b", function() {
+      return [this.get("a"), this.get("b")];
+    }),
+    cd: Ember.auto("c", "d", function(c, d) {
+      return [c, d];
+    }),
+
+    list1: Ember.auto("ab", "cd", function(ab, cd) {
+      return ab.concat(cd);
+    }),
+    list2: Ember.auto("ab", "c", "d", function(ab, c, d) {
+      return ab.concat(c, d);
+    })
+  }).create();
+
+  deepEqual(get(nums, "list1"), [1, 2, 3, 4], "computed and auto properties");
+  deepEqual(get(nums, "list2"), [1, 2, 3, 4], "computed and regular properties");
+});
