@@ -32,21 +32,19 @@ test("calling auto on a computed property creates an auto property", function() 
 });
 
 test("dependent keys can be specified", function () {
-  var Numbers, nums, list;
   expect(3);
 
-  list = function (a, b, c, d) {
+  var list = function (a, b, c, d) {
     return [].slice.call(arguments);
   };
 
-  Numbers = Ember.Object.extend({
+  var nums = Ember.Object.extend({
     a: 1, b: 2, c: 3, d: 4,
 
     list1: list.auto("a", "b", "c", "d"),
     list2: list.auto("a", "b"),
     list3: list.auto("d", "b", "c")
-  });
-  nums = Numbers.create();
+  }).create();
 
   deepEqual(get(nums, "list1"), [1, 2, 3, 4]);
   deepEqual(get(nums, "list2"), [1, 2, undefined, undefined], "arguments that don't map to dependent keys are injected as undefined");
