@@ -134,7 +134,7 @@ var argumentNamesFor = function(func) {
 };
 
 var keysFor = function(dependentKeys) {
-  var SPECIAL_KEY = /.@each|.[]/;
+  var SPECIAL_KEY = /\.@each|\.\[\]/;
   var keys = {};
   var keySection, keyParts, argName;
 
