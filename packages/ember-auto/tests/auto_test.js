@@ -32,10 +32,9 @@ test("the dependent key properties are injected into the function", function() {
 });
 
 test("arguments can be rearranged, skipped", function () {
-  var Numbers, nums;
   expect(4);
 
-  Numbers = Ember.Object.extend({
+  var nums = Ember.Object.extend({
     a: 1, b: 2, c: 3, d: 4,
 
     list1: Ember.auto(function (a, b, c, d) {
@@ -50,8 +49,7 @@ test("arguments can be rearranged, skipped", function () {
     list4: Ember.auto(function () {
       return [].slice.call(arguments);
     })
-  });
-  nums = Numbers.create();
+  }).create();
 
   deepEqual(get(nums, "list1"), [1, 2, 3, 4]);
   deepEqual(get(nums, "list2"), [1, 2], "works with fewer arguments");
@@ -62,10 +60,7 @@ test("arguments can be rearranged, skipped", function () {
 test("if dependent keys are specified, only their properties will be injected", function () {
   expect(3);
 
-  var list = function (a, b, c, d) {
-    return [].slice.call(arguments);
-  };
-
+  var list = function (a, b, c, d) { return [].slice.call(arguments); };
   var nums = Ember.Object.extend({
     a: 1, b: 2, c: 3, d: 4,
 
@@ -167,7 +162,7 @@ test("if multiple dependent keys have the same name, only the first is used", fu
     b: "App b"
   });
 
-  var list = function(a, b) { return [a, b] };
+  var list = function(a, b) { return [a, b]; };
   var obj = Ember.Object.extend({
     a: "obj a",
     b: "obj b",
