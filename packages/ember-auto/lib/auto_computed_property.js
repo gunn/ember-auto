@@ -133,14 +133,34 @@ var argumentNamesFor = function(func) {
   return argNames;
 };
 
-var argumentsFor = function (obj, keyName, property) {
+var keysFor = function(dependentKeys) {
+  var SPECIAL_KEY = /.@each|.[]/;
+  var keys = {};
+  var keySection, keyParts, argName;
+
+  for (var i = 0; i < dependentKeys.length; i++) {
+    keySection = dependentKeys[i].split(SPECIAL_KEY)[0];
+    keyParts = keySection.split(".");
+    argName = keyParts[keyParts.length-1];
+
+    if (!keys[argName]) keys[argName] = keySection;
+  };
+
+  return keys;
+};
+
+var argumentsFor = function(obj, keyName, property) {
   var args  = [];
   var names = argumentNamesFor(property.func);
-  var keys  = property._dependentKeys;
+  var keys  = keysFor(property._dependentKeys || []);
+
+  var key;
 
   for (var i = 0; i < names.length; i++) {
-    if (keys.indexOf(names[i]) !== -1) {
-      args.push(get(obj, names[i]));
+    key = keys[names[i]];
+
+    if (key) {
+      args.push(get(obj, key));
     } else {
       args.push(undefined);
     }
