@@ -106,6 +106,13 @@ test("dependent keys can point to other properties", function () {
 
 test("can handle .[] and .@each special keys", function () {
   expect(2);
+
+  var totalAccounts = function(accounts) {
+    return accounts.reduce(function(total, account) {
+      return total + account.amount;
+    }, 0);
+  };
+
   var obj = Ember.Object.extend({
     accounts: [
       { amount: 88 },
@@ -114,16 +121,8 @@ test("can handle .[] and .@each special keys", function () {
       { amount: 2.013e3 },
     ],
 
-    total1: Ember.auto("accounts.@each.amount", function(accounts) {
-      return accounts.reduce(function(total, account) {
-        return total + account.amount;
-      }, 0);
-    }),
-    total2: Ember.auto("accounts.[]", function(accounts) {
-      return accounts.reduce(function(total, account) {
-        return total + account.amount;
-      }, 0);
-    })
+    total1: Ember.auto("accounts.@each.amount", totalAccounts),
+    total2: Ember.auto("accounts.[]", totalAccounts)
   }).create();
 
   equal(get(obj, "total1"), 4697.859, ".@each");
@@ -168,19 +167,14 @@ test("if multiple dependent keys have the same name, only the first is used", fu
     b: "App b"
   });
 
+  var list = function(a, b) { return [a, b] };
   var obj = Ember.Object.extend({
     a: "obj a",
     b: "obj b",
 
-    list1: Ember.auto("a", "b", "App.a", "App.b", function(a, b) {
-      return [a, b];
-    }),
-    list2: Ember.auto("App.a", "App.b", "a", "b", function(a, b) {
-      return [a, b];
-    }),
-    list3: Ember.auto("App.a", "a", "b", "App.b", function(a, b) {
-      return [a, b];
-    })
+    list1: Ember.auto("a", "b", "App.a", "App.b", list),
+    list2: Ember.auto("App.a", "App.b", "a", "b", list),
+    list3: Ember.auto("App.a", "a", "b", "App.b", list)
   }).create();
 
   deepEqual(get(obj, "list1"), ["obj a", "obj b"]);
