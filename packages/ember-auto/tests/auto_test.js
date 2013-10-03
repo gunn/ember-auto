@@ -104,6 +104,32 @@ test("dependent keys can point to other properties", function () {
   deepEqual(get(nums, "list2"), [1, 2, 3, 4], "computed and regular properties");
 });
 
+test("can handle .[] and .@each special keys", function () {
+  expect(2);
+  var obj = Ember.Object.extend({
+    accounts: [
+      { amount: 88 },
+      { amount: 2600 },
+      { amount: -3.141 },
+      { amount: 2.013e3 },
+    ],
+
+    total1: Ember.auto("accounts.@each.amount", function(accounts) {
+      return accounts.reduce(function(total, account) {
+        return total + account.amount;
+      }, 0);
+    }),
+    total2: Ember.auto("accounts.[]", function(accounts) {
+      return accounts.reduce(function(total, account) {
+        return total + account.amount;
+      }, 0);
+    })
+  }).create();
+
+  equal(get(obj, "total1"), 4697.859, ".@each");
+  equal(get(obj, "total2"), 4697.859, ".[]");
+});
+
 test("dependent keys can point to property paths with multiple steps", function () {
   expect(3);
 
@@ -133,30 +159,3 @@ test("dependent keys can point to property paths with multiple steps", function 
   deepEqual(get(obj, "lithium"), "Lithium: 3", "long paths");
   deepEqual(get(obj, "currentName"), "Lithium", "mixed");
 });
-
-test("dependent keys can point to property paths with multiple steps", function () {
-  expect(2);
-  var obj = Ember.Object.extend({
-    accounts: [
-      { amount: 88 },
-      { amount: 2600 },
-      { amount: -3.141 },
-      { amount: 2.013e3 },
-    ],
-
-    total1: Ember.auto("accounts.@each.amount", function(accounts) {
-      return accounts.reduce(function(total, account) {
-        return total + account.amount;
-      }, 0);
-    }),
-    total2: Ember.auto("accounts.[]", function(accounts) {
-      return accounts.reduce(function(total, account) {
-        return total + account.amount;
-      }, 0);
-    })
-  }).create();
-
-  equal(get(obj, "total1"), 4697.859, ".@each");
-  equal(get(obj, "total2"), 4697.859, ".[]");
-});
-
