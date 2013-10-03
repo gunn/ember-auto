@@ -144,7 +144,7 @@ var keysFor = function(dependentKeys) {
     argName = keyParts[keyParts.length-1];
 
     if (!keys[argName]) keys[argName] = keySection;
-  };
+  }
 
   return keys;
 };
@@ -152,7 +152,7 @@ var keysFor = function(dependentKeys) {
 var getWithGlobals = function (obj, path) {
   var base = Ember.isGlobalPath(path) ? Ember.lookup : obj;
   return get(base, path);
-}
+};
 
 var argumentsFor = function(obj, keyName, property) {
   var args  = [];
