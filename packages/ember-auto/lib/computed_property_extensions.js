@@ -7,5 +7,9 @@ Ember.ComputedProperty.prototype.auto = function() {
     readOnly      : this._readOnly
   });
 
+  if (arguments.length > 0) {
+    ap.property.apply(ap, arguments);
+  }
+
   return ap;
 };
