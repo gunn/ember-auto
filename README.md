@@ -44,7 +44,7 @@ First you make a function an auto property by wrapping it with `Ember.auto`, or 
 
 Then Ember Auto works by reading the arguments from the function definition to figure out how to pass properties in. There are two main ways it decides what properties:
 
-#### Implicitly
+### Implicitly
 If all the properties are fields on the object, Ember auto can use the argument names:
 ```javascript
 var Person = Em.Object.extend({
@@ -56,7 +56,7 @@ var Person = Em.Object.extend({
 });
 ```
 
-#### Explicitly
+### Explicitly
 Otherwise you can set the properties however you like:
 ```javascript
 Person.extend({
@@ -95,3 +95,28 @@ var World = Em.Object.extend({
   }.auto("continents.@each.population")
 });
 ```
+## Contribute
+Ember Auto uses [node.js](http://nodejs.org/) and [grunt](http://gruntjs.com/) as a build system, these two libraries will need to be installed before starting.
+
+### Setup
+```bash
+git clone https://github.com/gunn/ember-auto.git
+cd ember-auto
+npm install
+```
+
+### Build Ember Auto
+```bash
+grunt
+```
+Unminified and minified builds will be placed in the `dist` directory.
+
+### Run Unit Tests
+To setup:
+```bash
+npm install -g bower
+npm install -g grunt-cli
+bower install
+```
+
+Then run `grunt test` to execute the test suite headlessly via phantomjs, or `grunt develop` to run tests in a browser - tests are available at http://localhost:8000/tests
