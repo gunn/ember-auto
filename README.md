@@ -40,12 +40,10 @@ Yes.
 
 
 ## How Does it Work?
-First you make a function an auto property by wrapping it with `Ember.auto`, or by calling `.auto()` on it.
-
-Then Ember Auto works by reading the arguments from the function definition to figure out how to pass properties in. There are two main ways it decides what properties:
+Ember Auto works by reading the arguments from the function definition to figure out how to pass properties in. There are two main ways it decides what properties:
 
 ### Implicitly
-If all the properties are fields on the object, Ember auto can use the argument names:
+If all the properties are fields on the object, Ember Auto can just use the argument names:
 ```javascript
 var Person = Em.Object.extend({
   first: "Richard",
@@ -96,6 +94,8 @@ var World = Em.Object.extend({
 });
 ```
 ## Contribute
+Ember Auto wants to stay light. If you think you can enhance it, please do! Improvements to this readme would be particularly appreciated.
+
 Ember Auto uses [node.js](http://nodejs.org/) and [grunt](http://gruntjs.com/) as a build system, these two libraries will need to be installed before starting.
 
 ### Setup
