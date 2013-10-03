@@ -135,7 +135,7 @@ test("dependent keys can point to property paths with multiple steps", function 
 });
 
 test("dependent keys can point to property paths with multiple steps", function () {
-  expect(3);
+  expect(2);
   var obj = Ember.Object.extend({
     accounts: [
       { amount: 88 },
@@ -144,19 +144,19 @@ test("dependent keys can point to property paths with multiple steps", function 
       { amount: 2.013e3 },
     ],
 
-    total1: Ember.auto("acounts.@each.amount", function(acounts) {
-      return acounts.reduce(function(total, account) {
-        total + account.amount;
+    total1: Ember.auto("accounts.@each.amount", function(accounts) {
+      return accounts.reduce(function(total, account) {
+        return total + account.amount;
       }, 0);
     }),
-    total2: Ember.auto("acounts.[]", function(acounts) {
-      return acounts.reduce(function(total, account) {
-        total + account.amount;
+    total2: Ember.auto("accounts.[]", function(accounts) {
+      return accounts.reduce(function(total, account) {
+        return total + account.amount;
       }, 0);
     })
   }).create();
 
-  equal(get(obj, "total1"), 234, ".@each");
-  equal(get(obj, "total2"), 234, ".[]");
+  equal(get(obj, "total1"), 4697.859, ".@each");
+  equal(get(obj, "total2"), 4697.859, ".[]");
 });
 
