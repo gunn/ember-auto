@@ -159,3 +159,31 @@ test("dependent keys can point to property paths with multiple steps", function 
   deepEqual(get(obj, "lithium"), "Lithium: 3", "long paths");
   deepEqual(get(obj, "currentName"), "Lithium", "mixed");
 });
+
+test("if multiple dependent keys have the same name, only the first is used", function () {
+  expect(3);
+
+  window.App = Ember.Object.create({
+    a: "App a",
+    b: "App b"
+  });
+
+  var obj = Ember.Object.extend({
+    a: "obj a",
+    b: "obj b",
+
+    list1: Ember.auto("a", "b", "App.a", "App.b", function(a, b) {
+      return [a, b];
+    }),
+    list2: Ember.auto("App.a", "App.b", "a", "b", function(a, b) {
+      return [a, b];
+    }),
+    list3: Ember.auto("App.a", "a", "b", "App.b", function(a, b) {
+      return [a, b];
+    })
+  }).create();
+
+  deepEqual(get(obj, "list1"), ["obj a", "obj b"]);
+  deepEqual(get(obj, "list2"), ["App a", "App b"]);
+  deepEqual(get(obj, "list3"), ["App a", "obj b"]);
+});
