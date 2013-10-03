@@ -149,6 +149,11 @@ var keysFor = function(dependentKeys) {
   return keys;
 };
 
+var getWithGlobals = function (obj, path) {
+  var base = Ember.isGlobalPath(path) ? Ember.lookup : obj;
+  return get(base, path);
+}
+
 var argumentsFor = function(obj, keyName, property) {
   var args  = [];
   var names = argumentNamesFor(property.func);
@@ -160,7 +165,7 @@ var argumentsFor = function(obj, keyName, property) {
     key = keys[names[i]];
 
     if (key) {
-      args.push(get(obj, key));
+      args.push(getWithGlobals(obj, key));
     } else {
       args.push(undefined);
     }

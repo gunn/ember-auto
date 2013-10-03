@@ -107,7 +107,7 @@ test("dependent keys can point to other properties", function () {
 test("dependent keys can point to property paths with multiple steps", function () {
   expect(3);
 
-  window.App = Ember.Object.extend({
+  window.App = Ember.Object.create({
     currentElement: "Li"
   });
 
