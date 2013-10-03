@@ -127,10 +127,36 @@ test("dependent keys can point to property paths with multiple steps", function 
     currentName: Ember.auto("elements", "App.currentElement", function(elements, currentElement) {
       return elements[currentElement].name;
     })
-
   }).create();
 
   deepEqual(get(obj, "currentElement"), "Li", "absolute paths");
   deepEqual(get(obj, "lithium"), "Lithium: 3", "long paths");
   deepEqual(get(obj, "currentName"), "Lithium", "mixed");
 });
+
+test("dependent keys can point to property paths with multiple steps", function () {
+  expect(3);
+  var obj = Ember.Object.extend({
+    accounts: [
+      { amount: 88 },
+      { amount: 2600 },
+      { amount: -3.141 },
+      { amount: 2.013e3 },
+    ],
+
+    total1: Ember.auto("acounts.@each.amount", function(acounts) {
+      return acounts.reduce(function(total, account) {
+        total + account.amount;
+      }, 0);
+    }),
+    total2: Ember.auto("acounts.[]", function(acounts) {
+      return acounts.reduce(function(total, account) {
+        total + account.amount;
+      }, 0);
+    })
+  }).create();
+
+  equal(get(obj, "total1"), 234, ".@each");
+  equal(get(obj, "total2"), 234, ".[]");
+});
+
