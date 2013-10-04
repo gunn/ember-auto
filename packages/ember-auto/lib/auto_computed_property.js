@@ -1,15 +1,7 @@
 Ember.AutoProperty = function(func, opts) {
   var cp = new Ember.ComputedProperty(func, opts);
-
-  if (!cp._dependentKeys || cp._dependentKeys.length<1) {
-    var keys = argumentNamesFor(cp.func);
-
-    if (keys.length) {
-      cp._dependentKeys = keys;
-    }
-  }
-
   cp._isAutoProperty = true;
+
   return cp;
 };
 
@@ -112,38 +104,14 @@ function finishChains(chainNodes) {
   }
 }
 
-var argumentNamesFor = function(func) {
-  var FN_ARGS        = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
-  var FN_ARG_SPLIT   = /,/;
-  var FN_ARG         = /^\s*(_?)(\S+?)\1\s*$/;
-  var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
-
-  var argNames = [];
-
-  if (func.length) {
-    var fnText  = func.toString().replace(STRIP_COMMENTS, '');
-    var argDecl = fnText.match(FN_ARGS);
-    (argDecl[1].split(FN_ARG_SPLIT)).forEach(function(arg) {
-      arg.replace(FN_ARG, function(all, underscore, name){
-        argNames.push(name);
-      });
-    });
-  }
-
-  return argNames;
-};
-
 var keysFor = function(dependentKeys) {
   var SPECIAL_KEY = /\.@each|\.\[\]/;
-  var keys = {};
+  var keys = [];
   var keySection, keyParts, argName;
 
   for (var i = 0; i < dependentKeys.length; i++) {
     keySection = dependentKeys[i].split(SPECIAL_KEY)[0];
-    keyParts = keySection.split(".");
-    argName = keyParts[keyParts.length-1];
-
-    if (!keys[argName]) keys[argName] = keySection;
+    keys.push(keySection);
   }
 
   return keys;
@@ -155,14 +123,12 @@ var getWithGlobals = function (obj, path) {
 };
 
 var argumentsFor = function(obj, keyName, property) {
-  var args  = [];
-  var names = argumentNamesFor(property.func);
-  var keys  = keysFor(property._dependentKeys || []);
+  var key,
+      keys = keysFor(property._dependentKeys || []),
+      args = [];
 
-  var key;
-
-  for (var i = 0; i < names.length; i++) {
-    key = keys[names[i]];
+  for (var i = 0; i < keys.length; i++) {
+    key = keys[i];
 
     if (key) {
       args.push(getWithGlobals(obj, key));
