@@ -3,7 +3,7 @@ module("auto properties");
 var get = Ember.get;
 
 
-test("get dependent keys from the function unless provided explicitly", function() {
+test("only gets explicitly provided dependent keys", function() {
   expect(3);
 
   var p1 = Ember.auto(function () {});
@@ -11,7 +11,7 @@ test("get dependent keys from the function unless provided explicitly", function
   var p3 = Ember.auto("X", "Y", function (a, b, c) {});
 
   deepEqual(p1._dependentKeys, undefined);
-  deepEqual(p2._dependentKeys, ["a", "b", "c"]);
+  deepEqual(p2._dependentKeys, undefined);
   deepEqual(p3._dependentKeys, ["X", "Y"]);
 });
 
@@ -19,7 +19,7 @@ test("the dependent key properties are injected into the function", function() {
   expect(2);
 
   var Person = Ember.Object.extend({
-    full: Ember.auto(function(first, last) {
+    full: Ember.auto("first", "last", function(first, last) {
       return first + " " + last;
     })
   });
@@ -31,36 +31,10 @@ test("the dependent key properties are injected into the function", function() {
   equal(get(obj, "full"), "Attila the Gunn", "changed properties are injected as arguments");
 });
 
-test("arguments can be rearranged, skipped", function () {
-  expect(4);
-
-  var nums = Ember.Object.extend({
-    a: 1, b: 2, c: 3, d: 4,
-
-    list1: Ember.auto(function (a, b, c, d) {
-      return [].slice.call(arguments);
-    }),
-    list2: Ember.auto(function (a, b) {
-      return [].slice.call(arguments);
-    }),
-    list3: Ember.auto(function (c, d, b) {
-      return [].slice.call(arguments);
-    }),
-    list4: Ember.auto(function () {
-      return [].slice.call(arguments);
-    })
-  }).create();
-
-  deepEqual(get(nums, "list1"), [1, 2, 3, 4]);
-  deepEqual(get(nums, "list2"), [1, 2], "works with fewer arguments");
-  deepEqual(get(nums, "list3"), [3, 4, 2], "works with any order of arguments");
-  deepEqual(get(nums, "list4"), [], "works with no arguments");
-});
-
-test("if dependent keys are specified, only their properties will be injected", function () {
+test("only the properties of provide keys will be injected, and in the order specified", function () {
   expect(3);
 
-  var list = function (a, b, c, d) { return [].slice.call(arguments); };
+  var list = function (w, x, y, z) { return [].slice.call(arguments); };
   var nums = Ember.Object.extend({
     a: 1, b: 2, c: 3, d: 4,
 
@@ -70,8 +44,8 @@ test("if dependent keys are specified, only their properties will be injected", 
   }).create();
 
   deepEqual(get(nums, "list1"), [1, 2, 3, 4]);
-  deepEqual(get(nums, "list2"), [1, 2, undefined, undefined], "arguments that don't map to dependent keys are injected as undefined");
-  deepEqual(get(nums, "list3"), [undefined, 2, 3, 4], "works with any order of dependent keys");
+  deepEqual(get(nums, "list2"), [1, 2], "arguments that don't map to dependent keys are injected as undefined");
+  deepEqual(get(nums, "list3"), [3, 4, 2], "works with any order of dependent keys");
 });
 
 test("dependent keys can point to other properties", function () {
@@ -154,7 +128,7 @@ test("dependent keys can point to property paths with multiple steps", function 
   deepEqual(get(obj, "currentName"), "Lithium", "mixed");
 });
 
-test("if multiple dependent keys have the same name, only the first is used", function () {
+test("if multiple dependent keys have the same name, no problem!", function () {
   expect(3);
 
   window.App = Ember.Object.create({
@@ -162,7 +136,7 @@ test("if multiple dependent keys have the same name, only the first is used", fu
     b: "App b"
   });
 
-  var list = function(a, b) { return [a, b]; };
+  var list = function (w, x, y, z) { return [].slice.call(arguments); };
   var obj = Ember.Object.extend({
     a: "obj a",
     b: "obj b",
@@ -172,7 +146,7 @@ test("if multiple dependent keys have the same name, only the first is used", fu
     list3: Ember.auto("App.a", "a", "b", "App.b", list)
   }).create();
 
-  deepEqual(get(obj, "list1"), ["obj a", "obj b"]);
-  deepEqual(get(obj, "list2"), ["App a", "App b"]);
-  deepEqual(get(obj, "list3"), ["App a", "obj b"]);
+  deepEqual(get(obj, "list1"), ["obj a", "obj b", "App.a", "App.b"]);
+  deepEqual(get(obj, "list2"), ["App.a", "App.b", "obj a", "obj b"]);
+  deepEqual(get(obj, "list3"), ["App.a", "obj a", "obj b", "App.b"]);
 });

@@ -7,7 +7,7 @@ test("calling auto on a function creates an auto property", function() {
   var Person = Ember.Object.extend({
     full: function(first, last) {
       return first + " " + last;
-    }.auto()
+    }.auto("first", "last")
   });
 
   var obj = Person.create({first: "Arthur", last: "Gunn"});
@@ -19,11 +19,11 @@ test("calling auto on a computed property creates an auto property", function() 
   var Person = Ember.Object.extend({
     full1: function(first, last) {
       return first + " " + last;
-    }.property().auto(),
+    }.property().auto("first", "last"),
 
     full2: Ember.computed(function(first, last) {
       return first + " " + last;
-    }).auto()
+    }).auto("first", "last")
   });
 
   var obj = Person.create({first: "Arthur", last: "Gunn"});
@@ -44,8 +44,8 @@ test("dependent keys can be specified", function () {
   }).create();
 
   deepEqual(get(nums, "list1"), [1, 2, 3, 4]);
-  deepEqual(get(nums, "list2"), [1, 2, undefined, undefined], "arguments that don't map to dependent keys are injected as undefined");
-  deepEqual(get(nums, "list3"), [undefined, 2, 3, 4], "works with any order of dependent keys");
+  deepEqual(get(nums, "list2"), [1, 2], "arguments that don't map to dependent keys are injected as undefined");
+  deepEqual(get(nums, "list3"), [4, 2, 3], "works with any order of dependent keys");
 });
 
 test(".auto can be used to specify keys on computed properties, .property on auto properties", function () {
@@ -61,8 +61,8 @@ test(".auto can be used to specify keys on computed properties, .property on aut
     list4: list.auto().property("c", "b")
   }).create();
 
-  deepEqual(get(nums, "list1"), [undefined, 2, 3, undefined], ".auto specifying keys on a computed property");
-  deepEqual(get(nums, "list2"), [undefined, 2, 3, undefined], ".property specifying keys on an auto property");
-  deepEqual(get(nums, "list3"), [undefined, 2, 3, undefined], ".auto specifying keys after a .property");
-  deepEqual(get(nums, "list4"), [undefined, 2, 3, undefined], ".property specifying keys after a .auto");
+  deepEqual(get(nums, "list1"), [2, 3], ".auto specifying keys on a computed property");
+  deepEqual(get(nums, "list2"), [2, 3], ".property specifying keys on an auto property");
+  deepEqual(get(nums, "list3"), [2, 3], ".auto specifying keys after a .property");
+  deepEqual(get(nums, "list4"), [2, 3], ".property specifying keys after a .auto");
 });
