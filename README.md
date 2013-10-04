@@ -18,12 +18,12 @@ Wouldn't it be nice if instead of using strings to reference properties, they we
 ```javascript
 gravatarUrl: function(email, size) {
   return 'http://www.gravatar.com/avatar/' + hex_md5(email) + '?s=' + size;
-}.auto()
+}.auto("email", "size")
 ```
 Or in coffeescript:
 
 ```coffeescript
-gravatarUrl: Em.Auto (email, size)->
+gravatarUrl: Em.Auto "email", "size", (email, size)->
   'http://www.gravatar.com/avatar/' + hex_md5(email) + '?s=' + size;
 ```
 
@@ -40,27 +40,14 @@ Yes.
 
 
 ## How Does it Work?
-Ember Auto works by reading the arguments from the function definition to figure out how to pass properties in. There are two main ways it decides what properties:
+Ember Auto works by injecting the property's keys into it's function:
 
-### Implicitly
-If all the properties are fields on the object, Ember Auto can just use the argument names:
 ```javascript
 var Person = Em.Object.extend({
-  first: "Richard",
-  last:  "Feynman",
-  fullName: function(first, last) {
-    return first+" "+last;
-  }.auto()
-});
-```
-
-### Explicitly
-Otherwise you can set the properties however you like:
-```javascript
-Person.extend({
-  message: function (fullName, loadedAt) {
-    return "Hi " + fullName + ", you've been here since" + loadedAt;
-  }.auto("App.loadedAt", "fullName")
+  name: "Richard",
+  message: function (name, loadedAt) {
+    return "Hi " + name + ", you've been here since " + loadedAt;
+  }.auto("App.loadedAt", "name")
 });
 ```
 
