@@ -146,7 +146,7 @@ test("if multiple dependent keys have the same name, no problem!", function () {
     list3: Ember.auto("App.a", "a", "b", "App.b", list)
   }).create();
 
-  deepEqual(get(obj, "list1"), ["obj a", "obj b", "App.a", "App.b"]);
-  deepEqual(get(obj, "list2"), ["App.a", "App.b", "obj a", "obj b"]);
-  deepEqual(get(obj, "list3"), ["App.a", "obj a", "obj b", "App.b"]);
+  deepEqual(get(obj, "list1"), ["obj a", "obj b", "App a", "App b"]);
+  deepEqual(get(obj, "list2"), ["App a", "App b", "obj a", "obj b"]);
+  deepEqual(get(obj, "list3"), ["App a", "obj a", "obj b", "App b"]);
 });

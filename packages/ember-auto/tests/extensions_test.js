@@ -61,8 +61,8 @@ test(".auto can be used to specify keys on computed properties, .property on aut
     list4: list.auto().property("c", "b")
   }).create();
 
-  deepEqual(get(nums, "list1"), [2, 3], ".auto specifying keys on a computed property");
-  deepEqual(get(nums, "list2"), [2, 3], ".property specifying keys on an auto property");
-  deepEqual(get(nums, "list3"), [2, 3], ".auto specifying keys after a .property");
-  deepEqual(get(nums, "list4"), [2, 3], ".property specifying keys after a .auto");
+  deepEqual(get(nums, "list1"), [3, 2], ".auto specifying keys on a computed property");
+  deepEqual(get(nums, "list2"), [3, 2], ".property specifying keys on an auto property");
+  deepEqual(get(nums, "list3"), [3, 2], ".auto specifying keys after a .property");
+  deepEqual(get(nums, "list4"), [3, 2], ".property specifying keys after a .auto");
 });
