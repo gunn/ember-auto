@@ -1,6 +1,7 @@
 module("auto properties");
 
-var get = Ember.get;
+var get = Ember.get,
+    list = function () { return [].slice.call(arguments); };
 
 
 test("only gets explicitly provided dependent keys", function() {
@@ -34,7 +35,6 @@ test("the dependent key properties are injected into the function", function() {
 test("only the properties of provide keys will be injected, and in the order specified", function () {
   expect(3);
 
-  var list = function (w, x, y, z) { return [].slice.call(arguments); };
   var nums = Ember.Object.extend({
     a: 1, b: 2, c: 3, d: 4,
 
@@ -136,7 +136,6 @@ test("if multiple dependent keys have the same name, no problem!", function () {
     b: "App b"
   });
 
-  var list = function (w, x, y, z) { return [].slice.call(arguments); };
   var obj = Ember.Object.extend({
     a: "obj a",
     b: "obj b",
