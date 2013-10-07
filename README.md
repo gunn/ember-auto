@@ -11,7 +11,7 @@ gravatarUrl: function() {
 }.property('email', 'size')
 ```
 
-Wouldn't it be nice if instead of using strings to reference properties, they were just  regular function arguments?
+Wouldn't it be nice if instead of using strings to reference properties, they were just regular function arguments?
 
 
 ## The Ember Auto Way
@@ -40,18 +40,18 @@ Yes.
 
 
 ## How Does it Work?
-Ember Auto works by injecting the property's keys into it's function:
+Ember Auto works by injecting the property's keys into it's function so you can use them like normal arguments:
 
 ```javascript
 var Person = Em.Object.extend({
-  name: "Richard",
-  message: function (name, loadedAt) {
+  firstName: "Richard",
+  message: function (loadedAt, name) {
     return "Hi " + name + ", you've been here since " + loadedAt;
-  }.auto("App.loadedAt", "name")
+  }.auto("App.loadedAt", "firstName")
 });
 ```
 
-There are many ways to set the properties, if `func` is a function to turn into an auto property, these are all valid:
+There are many ways to set the keys, if `func` is a function to turn into an auto property, these are all valid:
 
  - `Em.computed("prop.path", func).auto()`
  - `Em.auto("prop.path", func)`
