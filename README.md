@@ -59,6 +59,8 @@ There are many ways to set the keys, if `func` is a function to turn into an aut
  - `func.auto("prop.path")`
  - `func.property("prop.path").auto()`
 
+The values are injected into the function in the order that thier keys were supplied to the auto property.
+
 ## What about special keys?
 Computed properties in ember can reference special keys like `.@auto` and `.[]`. The last non-special segment is what's passed through:
 
@@ -80,6 +82,10 @@ var World = Em.Object.extend({
   }.auto("continents.@each.population")
 });
 ```
+
+## Any caveats?
+Currently Ember Auto doesn't support setting properties. So for now, just use the old style for properties you want to set.
+
 ## Contribute
 Ember Auto wants to stay light. If you think you can enhance it, please do! Improvements to this readme would be particularly appreciated.
 
