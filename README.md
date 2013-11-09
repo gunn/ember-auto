@@ -59,7 +59,7 @@ There are many ways to set the keys, if `func` is a function to turn into an aut
  - `func.auto("prop.path")`
  - `func.property("prop.path").auto()`
 
-The values are injected into the function in the order that thier keys were supplied to the auto property.
+The values are injected into the function in the order that their keys were supplied to the auto property.
 
 ## What about special keys?
 Computed properties in ember can reference special keys like `.@auto` and `.[]`. The last non-special segment is what's passed through:
