@@ -11,7 +11,7 @@ var isWatching        = Ember.isWatching;
 
 var addObserver       = Ember.addObserver;
 var addBeforeObserver = Ember.addBeforeObserver;
-var EnumerableUtils   = Ember.EnumerableUtils
+var EnumerableUtils   = Ember.EnumerableUtils;
 
 
 var testBoth = function(testname, callback) {

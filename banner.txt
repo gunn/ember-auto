@@ -1,5 +1,5 @@
 // ==========================================================================
 // Project:   Ember Auto
-// Copyright: ©2013 Arthur Gunn.
+// Copyright: ©2014 Arthur Gunn.
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
