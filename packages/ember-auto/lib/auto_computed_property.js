@@ -5,32 +5,24 @@ Ember.AutoProperty = function(func, opts) {
   return cp;
 };
 
-Ember.ComputedProperty.prototype.get = function(obj, keyName) {
-  var ret, cache, meta, chainNodes, args;
-
-  if (this._cacheable) {
-    meta  = metaFor(obj);
-    cache = meta.cache;
-    if (keyName in cache) { return cache[keyName]; }
-  }
+var originalGet = Ember.ComputedProperty.prototype.get;
+Ember.ComputedProperty.prototype.get = function (obj, keyName) {
+  var target = this;
 
   if (this._isAutoProperty) {
-    args = argumentsFor(obj, keyName, this);
-  } else {
-    args = [keyName];
+    var originalFunc  = this.func,
+        args          = argumentsFor(obj, keyName, this);
+        
+    target = {
+      _cacheable: this._cacheable,
+      _dependentKeys: this._dependentKeys,
+      func: function () {
+        return originalFunc.apply(obj, args);
+      }
+    };
   }
 
-  if (this._cacheable) {
-    ret        = cache[keyName] = this.func.apply(obj, args);
-    chainNodes = meta.chainWatchers && meta.chainWatchers[keyName];
-    if (chainNodes) { finishChains(chainNodes); }
-
-    addDependentKeys(this, obj, keyName, meta);
-  } else {
-    ret = this.func.apply(obj, args);
-  }
-
-  return ret;
+  return originalGet.apply(target, arguments);
 };
 
 var get      = Ember.get,
