@@ -34,6 +34,8 @@ Just include ember-auto.js however you like:
 <script type="text/javascript" src="ember.js"></script>
 <script type="text/javascript" src="ember-auto.js"></script>
 ```
+Use the `ember-<1.5.0` branch for ember versions before 1.5.0. The master branch has most recently been updated for 1.6.1.
+
 
 ## Is It Good?
 Yes.
