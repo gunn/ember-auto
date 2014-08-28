@@ -4,7 +4,7 @@
 // License:   Licensed under MIT license (see license.js)
 // ==========================================================================
 
-// 80efe67 (2014-08-07 17:54:18 +1200)
+// 786b05b (2014-08-28 15:29:42 +1200)
 
 (function() {
 
@@ -171,7 +171,7 @@ Ember.auto = function (func) {
 
 (function() {
 
-Ember.auto.VERSION = "0.0.1a";
+Ember.auto.VERSION = "0.1.0";
 
 if (Ember.libraries) {
   Ember.libraries.register("Ember Auto", Ember.auto.VERSION);

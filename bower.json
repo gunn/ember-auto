@@ -1,9 +1,9 @@
 {
   "name": "ember-auto",
-  "version": "0.0.1a",
+  "version": "0.1.0",
   "main": "ember-auto.js",
   "dependencies": {
-    "ember": "~1.6.1"
+    "ember": "^1.5.0"
   },
   "devDependencies": {
     "qunit": "~1.12.0"
